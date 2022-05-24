@@ -12,7 +12,7 @@ const store = async (req, res, next) => {
       let tmp_path = req.file.path;
       let originalExt = req.file.originalname.split('.')[req.file.originalname.split('.').length -1 ];
       let filename = req.file.filename + '.' + originalExt;
-      let target_path = path.resolve(config.rootPath, `public/images/${filename}`);
+      let target_path = path.resolve(config.rootPath, `public/images/product/${filename}`);
 
 
       const src = fs.createReadStream(tmp_path);
