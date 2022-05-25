@@ -4,7 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-const routerProduct = require('./app/product/router')
+const routerProduct = require('./app/product/router');
+const routerCategory = require('./app/category/router');
+const routerTags = require('./app/tag/router');
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // home
 app.use('/api',  routerProduct);
+app.use('/api',  routerCategory);
+app.use('/api',  routerTags);
 app.use('/', (req, res) => {
   res.render('index',{
     title: 'Eduwork Api Service'
