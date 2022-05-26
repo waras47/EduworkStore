@@ -1,12 +1,24 @@
 const router = require('express').Router();
-const tagsController = require('./controller')
+const tagController = require('./controller');
+const {police_check} = require('../../middlewares/index')
 
 
-router.get('/tags',   tagsController.index);
-router.post('/tags', tagsController.store);
-router.put('/tags/:id', tagsController.update);
-router.delete('/tags/:id',  tagsController.destroy);
+router.get('/tags', tagController.index);
 
+router.post('/tags',  
+  police_check('create', 'Tag'),
+  tagController.store
+);
+
+router.put('/tags/:id',   
+  police_check('update', 'Tag'),
+  tagController.update
+);
+
+router.delete('/tags/:id',   
+  police_check('delete', 'Tag'),
+  tagController.destroy
+);
 
 
 module.exports = router;
