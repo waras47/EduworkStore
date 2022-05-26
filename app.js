@@ -8,6 +8,7 @@ const routerProduct = require('./app/product/router');
 const routerCategory = require('./app/category/router');
 const routerTags = require('./app/tag/router');
 const routerAuth = require('./app/auth/router');
+const routerdeliveryAddress = require('./app/auth/router');
 const {decodeToken} = require('./middleware')
 
 
@@ -32,6 +33,7 @@ app.use('/auth',  routerAuth);
 app.use('/api',  routerProduct);
 app.use('/api',  routerCategory);
 app.use('/api',  routerTags);
+app.use('/api',  routerdeliveryAddress);
 app.use('/', (req, res) => {
   res.render('index',{
     title: 'Eduwork Api Service'
