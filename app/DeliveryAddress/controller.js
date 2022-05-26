@@ -28,9 +28,19 @@ const store = async(req, res, next) => {
 //update
 const update = async (req, res, next) => {
   try{
-    let payload = req.body;
-    let{id} = req.params;
-    let  address = await DeliveryAddress.findByIdAndUpdate(id, payload, {new: true});
+    let {_id, ...payload} = req.body;
+    let {id} = req.params;
+    let  address = await DeliveryAddress.findById(id);
+    let subjectAddress = subject('DeliveryAddress', {...address, user_id: address.user});
+    let policy = policyFor(req.user);
+    if(!policy.can('update', subjectAddress)){
+      return res.json({
+        error: 1,
+        message: 'You Are not Allowed to Modify Resource'
+      });
+    }
+
+    address = await DeliveryAddress.findByIdAndUpdate(id, payload, {new: true});
     return res.json(address);      
   }catch (err) {
     if(err && err.name === 'ValidationError') {
@@ -46,11 +56,20 @@ const update = async (req, res, next) => {
 }
 
 //view
-const index = async(req, res, next) => {
+const index = async (req, res, next) => {
   try {
-    let address = await DeliveryAddress.find();
-    return res.json(address);
-  } catch (err) {
+    let {skip=0, limit= 10} = req.query;
+    let count = await DeliveryAdresss.find({user: req.user._id}).countDocuments();
+    let address = 
+      await DeliveryAdress
+      .find({user: req.user._id})
+      .skip(parseInt(skip))
+      .limit(parseInt(limit))
+      .sort('-createdAt');
+
+      return res.json({data: address, count});
+ 
+  }catch (err) {
     if(err && err.name === 'ValidationError') {
       return res.json({
         error : 1,
@@ -58,16 +77,26 @@ const index = async(req, res, next) => {
         fields : err.errors
       });
     }
-    
     next(err);
   }
 }
 //delete
 const destroy = async (req, res, next) => {
   try{
-    let address = await DeliveryAddress.findByIdAndDelete(req.params.id);
+    let {id} = req.params;
+    let  address = await DeliveryAddress.findById(id);
+    let subjectAddress = subject('DeliveryAddress', {...address, user_id: address.user});
+    let policy = policyFor(req.user);
+    if(!policy.can('update', subjectAddress)){
+      return res.json({
+        error: 1,
+        message: 'You Are not Allowed to Delete Resource'
+      });
+    }
+
+    address = await DeliveryAddress.findByIdAndDelete(req.params.id);
     return res.json(address);
-  } catch (err) {
+  }catch (err) {
     if(err && err.name === 'ValidationError') {
       return res.json({
         error : 1,

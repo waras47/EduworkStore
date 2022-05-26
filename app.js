@@ -9,7 +9,7 @@ const routerCategory = require('./app/category/router');
 const routerTags = require('./app/tag/router');
 const routerAuth = require('./app/auth/router');
 const routerdeliveryAddress = require('./app/auth/router');
-const {decodeToken} = require('./middleware')
+const {decodeToken} = require('./middlewares')
 
 
 var app = express();
