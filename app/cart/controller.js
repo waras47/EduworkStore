@@ -120,8 +120,8 @@ const index = async(req, res, next) => {
 //   }
 // }
 module.exports = {
-  store,
+
   index,
   update,
-  destroy
+
 }
