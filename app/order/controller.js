@@ -1,5 +1,5 @@
 const CartItem = require('../cart-item/model');
-const DeliveryAddress = require('../DeliveryAddress/model');
+const DeliveryAddress = require('../deliveryAddress/model');
 const Order = require('../order/model');
 const {Types} = require('mongoose');
 const OrderItem = require('../order-item/model');
